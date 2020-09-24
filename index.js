@@ -24,7 +24,7 @@ client.on("guildCreate", guild => {
         bankatk: ""
     };
     users_data[guild.id] = {
-        joined: true
+        name: guild.name
     };
     saveData(games_data, "games");
     saveData(users_data, "users");
