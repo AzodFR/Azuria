@@ -16,6 +16,8 @@ You can change the moneybag reward of the BankAttack game by changing `"amount_b
 
 ## Commands
 
+`$help` → Give you the list of commands with their alias if exists
+
 `$money` → Send how much money you have on this server
 
 `$bankatk` → Launch the BankAttack game (you can only start a game at once)
