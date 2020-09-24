@@ -51,6 +51,8 @@ module.exports = {
                 started_m.delete();
                 games_data[guild_id].bankatk = "";
                 saveData("games", games_data);
+            }).catch(() => {
+                return;
             })
         })
 
