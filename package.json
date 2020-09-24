@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AzodFR/AzuriaBot.git"
+    "url": "git+https://github.com/AzodFR/Azuria.git"
   },
   "author": "Azod",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AzodFR/AzuriaBot/issues"
+    "url": "https://github.com/AzodFR/Azuria/issues"
   },
-  "homepage": "https://github.com/AzodFR/AzuriaBot#readme",
+  "homepage": "https://github.com/AzodFR/Azuria#readme",
   "dependencies": {
     "discord.js": "^12.3.1",
     "fs": "0.0.1-security"

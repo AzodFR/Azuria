@@ -4,14 +4,15 @@ const {token, prefix} = require('./config.json')
 
 const client = new Discord.Client();
 
-const games_data = JSON.parse(fs.readFileSync("./data/games.json", "utf-8"));
-const users_data = JSON.parse(fs.readFileSync("./data/users.json", "utf-8"));
+var games_data = JSON.parse(fs.readFileSync("./data/games.json", "utf-8"));
+var users_data = JSON.parse(fs.readFileSync("./data/users.json", "utf-8"));
 
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./cmds').filter(file => file.endsWith('.js'));
 
 client.once('ready', () => {
     console.log("Azuria is ready !");
+    client.user.setActivity(`Connected on: ${length(games_data)} servers`)
 })
 
 client.on("guildCreate", guild => {
@@ -21,12 +22,18 @@ client.on("guildCreate", guild => {
     users_data[guild.id] = {
         joined: true
     };
-    fs.writeFileSync("./data/games.json", JSON.stringify(games_data), (err) => {
-        if (err) console.error(err)
-    });
-    fs.writeFileSync("./data/users.json", JSON.stringify(users_data), (err) => {
-        if (err) console.error(err)
-    });
+    saveData(games_data, "games");
+    saveData(users_data, "users");
+    client.user.setActivity(`Connected on: ${length(games_data)} servers`)
+    
+})
+
+client.on("guildDelete", guild => {
+    delete games_data[guild.id]
+    delete users_data[guild.id]
+    saveData(games_data, "games");
+    saveData(users_data, "users");
+    client.user.setActivity(`Connected on: ${length(games_data)} servers`)
 })
 
 client.login(token);
@@ -48,4 +55,22 @@ client.on('message', message => {
         message.reply("OOPS... An error occured");
     }
 })
+
+function length(obj) {
+    return Object.keys(obj).length;
+}
+
+function getData(){
+    JSON.parse(fs.readFileSync("./data/games.json", "utf-8"));
+}
+
+function getUsers(){
+    JSON.parse(fs.readFileSync("./data/users.json", "utf-8"));
+}
+
+function saveData(data,type){
+    fs.writeFileSync("./data/"+type+".json", JSON.stringify(data), (err) => {
+        if (err) console.error(err)
+    });
+}
 
