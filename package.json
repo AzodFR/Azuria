@@ -1,0 +1,23 @@
+{
+  "name": "azuria",
+  "version": "1.0.0",
+  "description": "Azuria is an economical discord bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AzodFR/AzuriaBot.git"
+  },
+  "author": "Azod",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AzodFR/AzuriaBot/issues"
+  },
+  "homepage": "https://github.com/AzodFR/AzuriaBot#readme",
+  "dependencies": {
+    "discord.js": "^12.3.1",
+    "fs": "0.0.1-security"
+  }
+}
