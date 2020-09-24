@@ -9,7 +9,7 @@ module.exports = {
         const player = message.author;
         const player_id = player.id;
         const guild_id = message.guild.id;  
-        const {dev} = require("../config.json");
+        const {dev, amount_batk} = require("../config.json");
         const games_data = JSON.parse(fs.readFileSync("./data/games.json", "utf-8"));
         const users_data = JSON.parse(fs.readFileSync("./data/users.json", "utf-8"));
         var started_m = null;
@@ -18,6 +18,14 @@ module.exports = {
         if(games_data[guild_id].bankatk == ""){
             games_data[guild_id].bankatk = message.id;
             saveData("games", games_data);
+            if(!users_data[player_id]){
+                users_data[player_id] = {
+                    money: 0
+                }
+                fs.writeFileSync("./data/users.json", JSON.stringify(users_data), (err) => {
+                    if (err) console.error(err)
+                });
+            };
         }else{
             return message.channel.send('A game is already started !');
         }
@@ -102,7 +110,7 @@ module.exports = {
         }
         message.channel.send(start).then(started => {
              started_m = started;
-             gameLoop(started, player_id,line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e,title, games_data, users_data)
+             gameLoop(started, player_id,line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e,title, games_data, users_data, amount_batk)
         });
     },
 };
@@ -151,7 +159,7 @@ function finalConstructor(line_a,line_b,line_c,line_d,line_e,statut){
     return string;
 }
 
-function gameLoop(started, player_id,line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e,title, games_data, users_data){
+function gameLoop(started, player_id,line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e,title, games_data, users_data, amount_batk){
     started.react('🇦');
     started.react('🇧');
     started.react('🇨');
@@ -229,11 +237,13 @@ function gameLoop(started, player_id,line_a,line_b,line_c,line_d,line_e,clicked_
             started.react('🇦');
             started.react('🇩');
             started.react('👎');
-            games_data[guild_id].bankatk = "";
+            games_data[started.guild.id].bankatk = "";
             saveData("games", games_data);
             return;
         }else{
             started.reactions.removeAll();
+            updateCoins(player_id, amount_batk, users_data)
+            started.channel.send("Congratz, you win "+amount_batk+" coins !").then(win => {win.delete({timeout:2000})});
             started.edit(editCanva(started, line, choice));
             click.push(choice)
             switch(line){
@@ -254,7 +264,7 @@ function gameLoop(started, player_id,line_a,line_b,line_c,line_d,line_e,clicked_
                     break;
             }
             if(!checkWin(line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e)){
-                gameLoop(started, player_id,line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e,title, games_data, users_data);
+                gameLoop(started, player_id,line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e,title, games_data, users_data, amount_batk);
             }
             else{
                 started.reactions.removeAll();
@@ -269,12 +279,12 @@ function gameLoop(started, player_id,line_a,line_b,line_c,line_d,line_e,clicked_
             }
         }
         }) .catch(() => {
-            console.log('Game finished')
+            return;
         });
         
         
     }).catch(() => {
-        console.log('Game finished')
+        return;
     });
 }
 
@@ -384,4 +394,9 @@ function saveData(type, json){
         default:
             break;
     }
+}
+
+function updateCoins(player_id, amount, users_data){
+    users_data[player_id].money += amount;
+    saveData("users", users_data);
 }

@@ -13,6 +13,10 @@ const commandFiles = fs.readdirSync('./cmds').filter(file => file.endsWith('.js'
 client.once('ready', () => {
     console.log("Azuria is ready !");
     client.user.setActivity(`Connected on: ${length(games_data)} servers`)
+    Object.keys(games_data).forEach(guild => {
+        games_data[guild].bankatk = ""
+    })
+    saveData(games_data,"games");
 })
 
 client.on("guildCreate", guild => {
