@@ -23,6 +23,7 @@ module.exports = {
         }
         if(!users_data[guild_id][sender_id]){
             users_data[guild_id][sender_id] = {
+                username: sender.username,
                 money: 0
             }
             fs.writeFileSync("./data/users.json", JSON.stringify(users_data), (err) => {

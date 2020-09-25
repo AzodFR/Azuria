@@ -22,7 +22,6 @@ module.exports = {
         const dev = server_data[guild_id].dev;
        
         var started_m = null;
-        var title = null;
 
         if(games_data[guild_id].bankatk == ""){
             games_data[guild_id].bankatk = message.id;
@@ -31,17 +30,14 @@ module.exports = {
                 users_data[guild_id] = {
                     name: guild_name
                 }
-                fs.writeFileSync("./data/users.json", JSON.stringify(users_data), (err) => {
-                    if (err) console.error(err)
-                });
+                saveData("users", users_data);
             }
             if(!users_data[guild_id][player_id]){
                 users_data[guild_id][player_id] = {
+                    username: player.username,
                     money: 0
                 }
-                fs.writeFileSync("./data/users.json", JSON.stringify(users_data), (err) => {
-                    if (err) console.error(err)
-                });
+                saveData("users", users_data);
             };    
         }else{
             return message.channel.send('A game is already started !');
@@ -49,7 +45,6 @@ module.exports = {
 
         //TITLE MESSAGE
         message.channel.send(`Party started by ${player.username}`).then(m => {
-            title = m;
             m.react('⛔');
             m.awaitReactions((reaction, user) => user.id == player_id && reaction.emoji.name == "⛔",
             { max: 1}).then(collected => {
@@ -129,7 +124,7 @@ module.exports = {
         }
         message.channel.send(start).then(started => {
              started_m = started;
-             gameLoop(started,guild_id, player_id,line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e,title, games_data, users_data, amount_batk, amount_bigwin, coin)
+             gameLoop(started,guild_id, player_id,line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e, games_data, users_data, amount_batk, amount_bigwin, coin)
         });
     },
 };
@@ -178,7 +173,7 @@ function finalConstructor(line_a,line_b,line_c,line_d,line_e,statut, amount_bigw
     return string;
 }
 
-function gameLoop(started, guild_id,player_id,line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e,title, games_data, users_data, amount_batk,amount_bigwin, coin){
+function gameLoop(started, guild_id,player_id,line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e, games_data, users_data, amount_batk,amount_bigwin, coin){
     started.react('🇦');
     started.react('🇧');
     started.react('🇨');
@@ -283,7 +278,7 @@ function gameLoop(started, guild_id,player_id,line_a,line_b,line_c,line_d,line_e
                     break;
             }
             if(!checkWin(line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e)){
-                gameLoop(started, guild_id,player_id,line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e,title, games_data, users_data, amount_batk, amount_bigwin, coin);
+                gameLoop(started, guild_id,player_id,line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e, games_data, users_data, amount_batk, amount_bigwin, coin);
             }
             else{
                 started.reactions.removeAll();
