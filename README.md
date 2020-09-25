@@ -10,9 +10,6 @@ After that you have to add your token in the file. `"token": "yourtoken"` (edit 
 
 You can change the prefix for preventing any conflict `"prefix": "$"`
 
-You can set `"dev": "on"` for having the solution of BankAttack game
-
-You can change the moneybag reward of the BankAttack game by changing `"amount_batk': 10`
 
 ## Commands
 
@@ -21,6 +18,10 @@ You can change the moneybag reward of the BankAttack game by changing `"amount_b
 `$money` → Send how much money you have on this server
 
 `$bankatk` → Launch the BankAttack game (you can only start a game at once)
+
+`$server-info` → Show the variables of the server
+
+`$ekip` → Shout out to Freeze
 
 ## BankAttack Game
 
@@ -53,7 +54,7 @@ It can be a money bag so you win coins... (`"amount_batk': 10` ← amount editab
 
 ![github-small](https://i.imgur.com/zGQ2kgZ.png)
 
-If you reveal all the moneybags without find a skullhead, you win the game and win 100 coins
+If you reveal all the moneybags without find a skullhead, you win the game and win variable ammount of coins
 
 
 
