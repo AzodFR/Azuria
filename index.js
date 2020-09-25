@@ -109,7 +109,7 @@ function getUsers(){
 }
 
 function saveData(data,type){
-    fs.writeFileSync("./data/"+type+".json", JSON.stringify(data), (err) => {
+    fs.writeFileSync("./data/"+type+".json", JSON.stringify(data, null, 4), (err) => {
         if (err) console.error(err)
     });
 }

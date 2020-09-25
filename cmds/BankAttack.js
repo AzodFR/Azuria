@@ -402,12 +402,12 @@ function checkWin(line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked
 function saveData(type, json){
     switch(type){
         case 'games':
-            fs.writeFileSync("./data/games.json", JSON.stringify(json), (err) => {
+            fs.writeFileSync("./data/games.json", JSON.stringify(json, null, 4), (err) => {
                 if (err) console.error(err)
             });
             break;
         case 'users':
-            fs.writeFileSync("./data/users.json", JSON.stringify(json), (err) => {
+            fs.writeFileSync("./data/users.json", JSON.stringify(json, null, 4), (err) => {
                 if (err) console.error(err)
             });
             break;
