@@ -9,6 +9,8 @@ module.exports = {
         const guild_name = message.guild.name;
         const sender = message.author;
         const sender_id = sender.id;
+        const server_data = JSON.parse(fs.readFileSync("./data/config_servers.json", "utf-8"));
+        const coin = server_data[guild_id].money;
 
         var users_data = JSON.parse(fs.readFileSync("./data/users.json", "utf-8"));
         if(!users_data[guild_id]){
@@ -28,7 +30,7 @@ module.exports = {
             });
         };
 
-        message.channel.send(sender.username+" you have "+users_data[guild_id][sender_id].money+" coins !")
+        message.channel.send(sender.username+" you have "+users_data[guild_id][sender_id].money+" "+coin+" !")
 
     }
 }

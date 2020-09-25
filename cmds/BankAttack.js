@@ -2,6 +2,7 @@ const { ReactionCollector } = require("discord.js");
 const fs = require("fs");
 module.exports = {
     name: 'bankatk',
+    alias: ['batk'],
     description: 'Start a Bank Attack game',
     execute(message, args) {
 
@@ -10,9 +11,15 @@ module.exports = {
         const player_id = player.id;
         const guild_id = message.guild.id;
         const guild_name = message.guild.name;
-        const {dev, amount_batk} = require("../config.json");
+        
         const games_data = JSON.parse(fs.readFileSync("./data/games.json", "utf-8"));
         const users_data = JSON.parse(fs.readFileSync("./data/users.json", "utf-8"));
+        const server_data = JSON.parse(fs.readFileSync("./data/config_servers.json", "utf-8"));
+
+        const amount_batk = server_data[guild_id].bank_atk_simple;
+        const amount_bigwin = server_data[guild_id].bank_atk_bigwin;
+        const coin = server_data[guild_id].money;
+        const dev = server_data[guild_id].dev;
        
         var started_m = null;
         var title = null;
@@ -122,7 +129,7 @@ module.exports = {
         }
         message.channel.send(start).then(started => {
              started_m = started;
-             gameLoop(started,guild_id, player_id,line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e,title, games_data, users_data, amount_batk)
+             gameLoop(started,guild_id, player_id,line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e,title, games_data, users_data, amount_batk, amount_bigwin, coin)
         });
     },
 };
@@ -162,16 +169,16 @@ function lineFinalConstructor(line, index){
     return string;
 }
 
-function finalConstructor(line_a,line_b,line_c,line_d,line_e,statut){
+function finalConstructor(line_a,line_b,line_c,line_d,line_e,statut, amount_bigwin, coin){
     if( statut == "loose"){
         var string = lineFinalConstructor(line_a,"a")+"\n"+lineFinalConstructor(line_b,"b")+"\n"+lineFinalConstructor(line_c,"c")+"      -- YOU LOOSE"+"\n"+lineFinalConstructor(line_d,"d")+"\n"+lineFinalConstructor(line_e,"e");
     }else if( statut == "win"){
-        var string = lineFinalConstructor(line_a,"a")+"\n"+lineFinalConstructor(line_b,"b")+"\n"+lineFinalConstructor(line_c,"c")+"      -- BIG WIN (+100 coins)"+"\n"+lineFinalConstructor(line_d,"d")+"\n"+lineFinalConstructor(line_e,"e");
+        var string = lineFinalConstructor(line_a,"a")+"\n"+lineFinalConstructor(line_b,"b")+"\n"+lineFinalConstructor(line_c,"c")+"      -- BIG WIN (+"+amount_bigwin+" "+coin+")"+"\n"+lineFinalConstructor(line_d,"d")+"\n"+lineFinalConstructor(line_e,"e");
     }
     return string;
 }
 
-function gameLoop(started, guild_id,player_id,line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e,title, games_data, users_data, amount_batk){
+function gameLoop(started, guild_id,player_id,line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e,title, games_data, users_data, amount_batk,amount_bigwin, coin){
     started.react('🇦');
     started.react('🇧');
     started.react('🇨');
@@ -244,7 +251,7 @@ function gameLoop(started, guild_id,player_id,line_a,line_b,line_c,line_d,line_e
         }
         if(actual.includes(choice)){
             started.reactions.removeAll();
-            started.edit(finalConstructor(line_a,line_b,line_c,line_d,line_e,"loose"));
+            started.edit(finalConstructor(line_a,line_b,line_c,line_d,line_e,"loose", amount_bigwin, coin));
             started.react('🇧');
             started.react('🇦');
             started.react('🇩');
@@ -255,7 +262,7 @@ function gameLoop(started, guild_id,player_id,line_a,line_b,line_c,line_d,line_e
         }else{
             started.reactions.removeAll();
             updateCoins(guild_id, player_id, amount_batk, users_data)
-            started.channel.send("Congratz, you win "+amount_batk+" coins !").then(win => {win.delete({timeout:2000})});
+            started.channel.send("Congratz, you win "+amount_batk+" "+coin+" !").then(win => {win.delete({timeout:2000})});
             started.edit(editCanva(started, line, choice));
             click.push(choice)
             switch(line){
@@ -276,16 +283,16 @@ function gameLoop(started, guild_id,player_id,line_a,line_b,line_c,line_d,line_e
                     break;
             }
             if(!checkWin(line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e)){
-                gameLoop(started, guild_id,player_id,line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e,title, games_data, users_data, amount_batk);
+                gameLoop(started, guild_id,player_id,line_a,line_b,line_c,line_d,line_e,clicked_a,clicked_b,clicked_c,clicked_d,clicked_e,title, games_data, users_data, amount_batk, amount_bigwin, coin);
             }
             else{
                 started.reactions.removeAll();
-                started.edit(finalConstructor(line_a,line_b,line_c,line_d,line_e,"win"));
+                started.edit(finalConstructor(line_a,line_b,line_c,line_d,line_e,"win", amount_bigwin, coin));
                 started.react('🇼');
                 started.react('🇮');
                 started.react('🇳');
                 started.react('🏆');
-                updateCoins(guild_id, player_id, 100, users_data)
+                updateCoins(guild_id, player_id, amount_bigwin, users_data)
                 games_data[started.guild.id].bankatk = "";
                 saveData("games", games_data);
                 return;

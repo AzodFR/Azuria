@@ -6,13 +6,12 @@ module.exports = {
     description: "Display all the commands list",
     execute(message, args, client,prefix){
 
-        
-
         var embed = new Discord.MessageEmbed()
                     .setTitle("List of commands")
                     .setAuthor(client.user.username, client.user.avatarURL())
                     .setDescription('-----------------')
-                    .setColor("BLUE");
+                    .setColor("BLUE")
+                    .setURL("https://github.com/AzodFR/Azuria/");
         client.commands.forEach(cmd => {
             var name = prefix+cmd.name;
             if(cmd.alias){

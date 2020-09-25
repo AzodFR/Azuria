@@ -6,6 +6,7 @@ const client = new Discord.Client();
 
 var games_data = JSON.parse(fs.readFileSync("./data/games.json", "utf-8"));
 var users_data = JSON.parse(fs.readFileSync("./data/users.json", "utf-8"));
+var config_data = JSON.parse(fs.readFileSync("./data/config_servers.json", "utf-8"));
 
 client.commands = new Discord.Collection();
 client.alias = new Discord.Collection();
@@ -31,8 +32,15 @@ client.on("guildCreate", guild => {
     users_data[guild.id] = {
         name: guild.name
     };
+    config_data[guild.id] = {
+        money: "coins",
+        bank_atk_simple: 10,
+        bank_atk_bigwin: 100,
+        dev: "off"
+    }
     saveData(games_data, "games");
     saveData(users_data, "users");
+    saveData(config_data, "config_servers");
     client.user.setPresence({
         activity: {
             name: `Connected on: ${length(games_data)} servers`,
@@ -44,8 +52,10 @@ client.on("guildCreate", guild => {
 client.on("guildDelete", guild => {
     delete games_data[guild.id]
     delete users_data[guild.id]
+    delete config_data[guild.id]
     saveData(games_data, "games");
     saveData(users_data, "users");
+    saveData(config_data, "config_servers");
     client.user.setPresence({
         activity: {
             name: `Connected on: ${length(games_data)} servers`,

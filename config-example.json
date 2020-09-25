@@ -1,6 +1,4 @@
 {
     "token": "yourtoken",
-    "prefix": "$",
-    "dev": "off",
-    "amount_batk": 10
+    "prefix": "$"
 }
