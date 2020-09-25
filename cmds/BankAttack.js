@@ -4,7 +4,7 @@ module.exports = {
     name: 'bankatk',
     alias: ['batk'],
     description: 'Start a Bank Attack game',
-    execute(message, args) {
+    execute(message, args, client) {
 
         //GET PLAYER INFOS & OTHER VARS
         const player = message.author;
@@ -21,7 +21,7 @@ module.exports = {
         const coin = server_data[guild_id].money;
         const dev = server_data[guild_id].dev;
        
-        var started_m = null;
+        
 
         if(games_data[guild_id].bankatk == ""){
             games_data[guild_id].bankatk = message.id;
@@ -43,16 +43,18 @@ module.exports = {
             return message.channel.send('A game is already started !');
         }
 
+        var started_m = null;
+
         //TITLE MESSAGE
         message.channel.send(`Party started by ${player.username}`).then(m => {
             m.react('⛔');
             m.awaitReactions((reaction, user) => user.id == player_id && reaction.emoji.name == "⛔",
             { max: 1}).then(collected => {
-                message.delete();
                 m.delete();
-                started_m.delete();
+                message.delete();
                 games_data[guild_id].bankatk = "";
                 saveData("games", games_data);
+                m.channel.messages.cache.get(started_m.id).delete();
             }).catch(() => {
                 return;
             })
@@ -224,6 +226,7 @@ function gameLoop(started, guild_id,player_id,line_a,line_b,line_c,line_d,line_e
         started.awaitReactions((reaction, user) => user.id == player_id && 
     (reaction.emoji.name == "1️⃣" || reaction.emoji.name == "2️⃣" ||reaction.emoji.name == "3️⃣" ||reaction.emoji.name == "4️⃣" ||reaction.emoji.name == "5️⃣" ),
     {max: 1}).then(collected => {
+        if(games_data[started.guild.id].bankatk == "") return;
         var choice = 0;
         switch(collected.first().emoji.name){
         case "1️⃣":
@@ -293,13 +296,13 @@ function gameLoop(started, guild_id,player_id,line_a,line_b,line_c,line_d,line_e
                 return;
             }
         }
-        }) .catch(() => {
-            return;
+        }) .catch(error => {
+            throw error;
         });
         
         
-    }).catch(() => {
-        return;
+    }).catch(error => {
+        throw error;
     });
 }
 
