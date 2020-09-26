@@ -13,6 +13,8 @@ module.exports = {
 
         const amount_batk = server_data[guild_id].bank_atk_simple;
         const amount_bigwin = server_data[guild_id].bank_atk_bigwin;
+        const amount_drmin = server_data[guild_id].dailyreward_min;
+        const amount_drmax = server_data[guild_id].dailyreward_max;
         const coin = server_data[guild_id].money;
         const dev = server_data[guild_id].dev;
         var footer_url = "";
@@ -31,6 +33,8 @@ module.exports = {
                 .addField("Currency type:", coin)
                 .addField("BankAttack Simple Reward", amount_batk)
                 .addField("BankAttack Big Win", amount_bigwin)
+                .addField("DailyReward Minimum Reward", amount_drmin)
+                .addField("DailyReward Maximum Reward", amount_drmax)
                 .setFooter("Dev mode is "+dev, footer_url);
         message.channel.send(embed);
     }

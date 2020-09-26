@@ -14,11 +14,7 @@ const commandFiles = fs.readdirSync('./cmds').filter(file => file.endsWith('.js'
 
 client.once('ready', () => {
     console.log("Azuria is ready !");
-    client.user.setPresence({
-        activity: {
-            name: `Connected on: ${length(games_data)} servers`,
-        },
-    })
+    client.user.setActivity(`Connected on: ${length(games_data)} servers`);
     Object.keys(games_data).forEach(guild => {
         games_data[guild].bankatk = ""
     })
@@ -36,16 +32,14 @@ client.on("guildCreate", guild => {
         money: "coins",
         bank_atk_simple: 10,
         bank_atk_bigwin: 100,
+        dailyreward_min: 5,
+        dailyreward_max: 20,
         dev: "off"
     }
     saveData(games_data, "games");
     saveData(users_data, "users");
     saveData(config_data, "config_servers");
-    client.user.setPresence({
-        activity: {
-            name: `Connected on: ${length(games_data)} servers`,
-        },
-    })
+    client.user.setActivity(`Connected on: ${length(games_data)} servers`);
     
 })
 
@@ -56,11 +50,7 @@ client.on("guildDelete", guild => {
     saveData(games_data, "games");
     saveData(users_data, "users");
     saveData(config_data, "config_servers");
-    client.user.setPresence({
-        activity: {
-            name: `Connected on: ${length(games_data)} servers`,
-        },
-    })
+    client.user.setActivity(`Connected on: ${length(games_data)} servers`);
 })
 
 client.login(token);
@@ -95,6 +85,15 @@ client.on('message', message => {
     }
 
 })
+
+setInterval(function(){
+    const date = new Date().getMinutes();
+    if(date%2==0){
+        client.user.setActivity('type $help')
+    }else{
+        client.user.setActivity(`Connected on: ${length(games_data)} servers`)
+    }
+},10000)
 
 function length(obj) {
     return Object.keys(obj).length;

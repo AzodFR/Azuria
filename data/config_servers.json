@@ -1,8 +1,18 @@
 {
     "758747671321509958": {
         "money": "racks",
-        "bank_atk_simple": "15",
-        "bank_atk_bigwin": "120",
+        "bank_atk_simple": 15,
+        "bank_atk_bigwin": 120,
+        "dailyreward_min": 10,
+        "dailyreward_max": 50,
+        "dev": "off"
+    },
+    "758680843148853309": {
+        "money": "coins",
+        "bank_atk_simple": 10,
+        "bank_atk_bigwin": 100,
+        "dailyreward_min": 5,
+        "dailyreward_max": 20,
         "dev": "off"
     }
 }
