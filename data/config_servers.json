@@ -1,8 +1,8 @@
 {
     "758747671321509958": {
-        "money": "coins",
-        "bank_atk_simple": 10,
-        "bank_atk_bigwin": 100,
-        "dev": "on"
+        "money": "racks",
+        "bank_atk_simple": "15",
+        "bank_atk_bigwin": "120",
+        "dev": "off"
     }
 }

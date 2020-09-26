@@ -1,5 +1,5 @@
 const fs = require('fs')
-const Discord = require('discord.js');
+const {MessageEmbed} = require('discord.js')
 
 module.exports = {
     name: "server-info",
@@ -15,8 +15,14 @@ module.exports = {
         const amount_bigwin = server_data[guild_id].bank_atk_bigwin;
         const coin = server_data[guild_id].money;
         const dev = server_data[guild_id].dev;
+        var footer_url = "";
+        if(dev == "on"){
+            footer_url = "https://www.clker.com/cliparts/g/o/B/T/y/X/glossy-green-button-md.png"
+        }else{
+            footer_url = "https://www.clker.com/cliparts/l/P/u/k/t/R/glossy-red-button-md.png"
+        }
 
-        const embed = new Discord.MessageEmbed()
+        const embed = new MessageEmbed()
                 .setTitle("Server Information")
                 .setAuthor(client.user.username, client.user.avatarURL())
                 .setDescription('-----------------')
@@ -25,7 +31,7 @@ module.exports = {
                 .addField("Currency type:", coin)
                 .addField("BankAttack Simple Reward", amount_batk)
                 .addField("BankAttack Big Win", amount_bigwin)
-                .setFooter("Dev mode is "+dev);
+                .setFooter("Dev mode is "+dev, footer_url);
         message.channel.send(embed);
     }
 }
