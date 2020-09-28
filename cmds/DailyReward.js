@@ -39,6 +39,7 @@ module.exports = {
             };
             saveData("games", games_data);
             getReward(min, max, users_data, guild_id, author_id, games_data, coin, message)
+            saveData("users", users_data);
             return;
         }else{
             if(Date.now() < games_data[guild_id][author_id].dailyreward+(864*100000)){
@@ -51,6 +52,7 @@ module.exports = {
                 return;
             }else{
                 getReward(min, max, users_data, guild_id, author_id, games_data, coin, message)
+                saveData("users", users_data);
                 return;
             }
         }

@@ -3,29 +3,50 @@
         "name": "Azod Dev",
         "758479575260594238": {
             "username": "Azuria",
-            "money": 0,
+            "money": 10,
             "xp": 1,
             "level": 0,
             "boost": 1
         },
         "209392112914006016": {
             "username": "Azod",
-            "money": 0,
-            "xp": 30,
-            "level": 5,
+            "money": 405,
+            "xp": 2,
+            "level": 6,
             "boost": 1
         },
         "218483832502878208": {
             "username": "PlayBoi",
-            "money": 0,
+            "money": 200,
             "xp": 10,
             "level": 0,
             "boost": 1
         },
         "371717130682499096": {
             "username": "A_OlbY",
-            "money": 15,
-            "xp": 0,
+            "money": 500,
+            "xp": 15,
+            "level": 0,
+            "boost": 1
+        },
+        "277573065091710978": {
+            "username": "ByShid",
+            "money": 90,
+            "xp": 41,
+            "level": 7,
+            "boost": 1
+        },
+        "277522694235226112": {
+            "username": "Xelawe",
+            "money": 3,
+            "xp": 1,
+            "level": 0,
+            "boost": 1
+        },
+        "277474721384235009": {
+            "username": "LinkiZ",
+            "money": 5,
+            "xp": 1,
             "level": 0,
             "boost": 1
         }

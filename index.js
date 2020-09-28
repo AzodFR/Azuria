@@ -74,7 +74,7 @@ for(const file of commandFiles){
     } 
 }
 
-client.on('message', message => {
+client.on('message', async message => {
     if(message.author.bot) return;
     if(!message.content.startsWith(prefix)){
         const guild_id = message.guild.id;
@@ -89,6 +89,8 @@ client.on('message', message => {
             }
             saveData(users_data, "users");
         }; 
+        users_data = JSON.parse(fs.readFileSync("./data/users.json", "utf-8"));
+        config_data = JSON.parse(fs.readFileSync("./data/config_servers.json", "utf-8"));
         const boost = users_data[guild_id][author_id].boost;
         const basexp = config_data[guild_id].basexp;
         const level = users_data[guild_id][author_id].level;

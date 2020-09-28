@@ -1,12 +1,12 @@
 {
     "758747671321509958": {
         "money": "racks",
-        "bank_atk_simple": 10,
+        "bank_atk_simple": 20,
         "bank_atk_bigwin": 100,
         "dailyreward_min": 5,
         "dailyreward_max": 20,
         "basexp": 1,
-        "dev": "on",
+        "dev": "off",
         "welcome": "758747671321509961",
         "levels": {
             "1": 20,
