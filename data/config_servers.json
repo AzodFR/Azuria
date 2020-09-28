@@ -6,7 +6,7 @@
         "dailyreward_min": 5,
         "dailyreward_max": 20,
         "basexp": 1,
-        "dev": "off",
+        "dev": "on",
         "welcome": "758747671321509961",
         "levels": {
             "1": 20,
