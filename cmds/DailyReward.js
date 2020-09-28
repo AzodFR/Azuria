@@ -17,7 +17,10 @@ module.exports = {
         if(!users_data[guild_id][author_id]){
             users_data[guild_id][author_id] = {
                 username: message.author.username,
-                money: 0
+                money: 0,
+                xp: 0,
+                level: 0,
+                boost: 1
             }
             saveData("users", users_data);
         };    

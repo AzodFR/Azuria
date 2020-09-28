@@ -24,7 +24,10 @@ module.exports = {
         if(!users_data[guild_id][sender_id]){
             users_data[guild_id][sender_id] = {
                 username: sender.username,
-                money: 0
+                money: 0,
+                xp: 0,
+                level: 0,
+                boost: 1
             }
             fs.writeFileSync("./data/users.json", JSON.stringify(users_data), (err) => {
                 if (err) console.error(err)
