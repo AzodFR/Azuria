@@ -123,8 +123,9 @@ client.on('message', message => {
 
 
 client.on("guildMemberAdd", async member => {
+    config_data = JSON.parse(fs.readFileSync("./data/config_servers.json", "utf-8"));
     var welcome_channel = undefined;
-    const regex = /[A-Za-z]/g;
+    const regex = /[A-zÀ-ÿ]/g;
     if(config_data[member.guild.id].welcome.match(regex)){
          welcome_channel = member.guild.channels.cache.find(ch => ch.name === config_data[member.guild.id].welcome);
     }else{

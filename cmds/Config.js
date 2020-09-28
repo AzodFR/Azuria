@@ -81,6 +81,19 @@ module.exports = {
                         }
                     case "welcome":{
                             server_data[guild_id].welcome = args[1];
+                            var welcome_c = undefined;
+                            const regex = /[A-zÀ-ÿ]/g;
+                            if(args[1].match(regex)){
+                                welcome_c = message.guild.channels.cache.find(ch => ch.name === args[1]);
+                            }else{
+                                welcome_c = message.guild.channels.cache.find(ch => ch.id === args[1])
+                            }
+                            if(!welcome_c){
+                                message.reply("this channel doesn't exist !")
+                               return; 
+                            } 
+                            message.channel.send("Success ! Your new Welcoming Channel is <#"+welcome_c.id+">")
+                            break;
                     }
                     default:
                         break;

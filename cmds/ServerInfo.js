@@ -19,13 +19,12 @@ module.exports = {
         const dev = server_data[guild_id].dev;
         const basexp = server_data[guild_id].basexp;
         var welcome_channel = message.guild.channels.cache.get(ch => ch.id === server_data[guild_id].welcome);
-        const regex = /[A-Za-z]/g;
+        const regex = /[A-zÀ-ÿ]/g;
         if(server_data[guild_id].welcome.match(regex)){
             welcome_channel = await message.guild.channels.cache.find(ch => ch.name === server_data[guild_id].welcome);
        }else{
             welcome_channel = await message.guild.channels.cache.find(ch => ch.id === server_data[guild_id].welcome);
        }
-       console.log(welcome_channel)
         var footer_url = "";
         if(dev == "on"){
             footer_url = "https://www.clker.com/cliparts/g/o/B/T/y/X/glossy-green-button-md.png"
@@ -40,7 +39,7 @@ module.exports = {
                 .setColor("BLUE")
                 .setURL("https://github.com/AzodFR/Azuria/")
                 .addField("Currency type", coin)
-                .addField("Welcome Channel", message.guild.channels.cache.find(ch => ch.id === server_data[guild_id].welcome).name)
+                .addField("Welcome Channel", welcome_channel.name)
                 .addField("BankAttack Simple Reward", amount_batk)
                 .addField("BankAttack Big Win", amount_bigwin)
                 .addField("DailyReward Minimum Reward", amount_drmin)
