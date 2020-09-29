@@ -66,6 +66,17 @@ module.exports = {
                             const p_filter = ans => players.includes(ans.author.id);
                             const server_data = JSON.parse(fs.readFileSync("./data/config_servers.json", "utf-8"));
                             const timer = server_data[m.guild.id].fast_time
+                            var time = timer
+                            var intervalid = setInterval(function() {
+                                if(time>=0){
+                                    m.suppressEmbeds();
+                                    m.edit(`You have ${time} secondes to get the right answer !`);
+                                    time--;
+                                }else{
+                                    clearInterval(intervalid);
+                                }
+                                
+                            }, 1000)
                             calc.channel.awaitMessages(p_filter, {time: timer*1000, errors: ['time'] })
                             .then(collected => {
                                 console.log(collected+'----')

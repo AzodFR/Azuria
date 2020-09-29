@@ -41,6 +41,17 @@ module.exports = {
                         collector.stop();
                         m.reactions.removeAll();
                         const p_filter = ans => list_player.includes(ans.author.id);
+                        var timer = 10
+                        var intervalid = setInterval(function() {
+                            if(timer>=0){
+                                m.suppressEmbeds();
+                                m.edit(`You have ${timer} secondes to pick a number between 0 and 25`);
+                                timer--;
+                            }else{
+                                clearInterval(intervalid);
+                            }
+                            
+                        }, 1000)
                         m.channel.awaitMessages(p_filter, {time: 10*1000, errors: ['time'] })
                         .then(collected => {console.log(collected)})
                         .catch(collected => {
