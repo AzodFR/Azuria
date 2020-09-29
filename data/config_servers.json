@@ -2,7 +2,7 @@
     "758747671321509958": {
         "money": "racks",
         "bank_atk_simple": 20,
-        "bank_atk_bigwin": 100,
+        "bank_atk_bigwin": 1000,
         "dailyreward_min": 25,
         "dailyreward_max": 200,
         "fast_reward": 30,

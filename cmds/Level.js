@@ -3,6 +3,7 @@ const Canvas = require('canvas');
 const {MessageEmbed, MessageAttachment} = require('discord.js')
 module.exports = {
     name: "level",
+    alias: ["xp"],
     description: "Give level on the server",
     async execute(message,args, client){
 

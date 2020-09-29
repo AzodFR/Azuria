@@ -99,9 +99,10 @@ client.on('message', async message => {
         users_data[guild_id][author_id].xp += basexp*boost
         saveData(users_data, "users");
         const xp = users_data[guild_id][author_id].xp;
+        if(level == 200) return;
         if(xp >= config_data[guild_id].levels[level+1]){
             users_data[guild_id][author_id].level += 1;
-            users_data[guild_id][author_id].xp = 0;
+            users_data[guild_id][author_id].xp -= config_data[guild_id].levels[level+1];
             message.reply(`you are now level ${level+1} !`)
             saveData(users_data, "users");
         }
@@ -168,6 +169,9 @@ client.on("guildMemberAdd", async member => {
 })
 
 setInterval(function(){
+    var users_data = JSON.parse(fs.readFileSync("./data/users.json", "utf-8"));
+    var money = users_data["758747671321509958"]["758479575260594238"].money
+    client.guilds.cache.find(guild => guild.id == "758747671321509958").channels.cache.find(chan => chan.id == "760594271585304636").setName(`Bank: ${money} racks`)
     const date = new Date().getMinutes();
     if(date%2==0){
         client.user.setActivity('type $help')

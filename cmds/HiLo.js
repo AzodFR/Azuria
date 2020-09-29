@@ -30,6 +30,7 @@ module.exports = {
                 users_data[guild_id][player_id].money -= bet;
                 saveCoins(users_data);
                 const number = getRandomInt(100);
+                console.log(number)
                 message.channel.send("React for: ⬆️ Higher / ⬇️ Lower than 50 (Random number from 0 to 100)").then(m => {
                     m.react('⬆️');
                     m.react('⬇️');
@@ -38,16 +39,25 @@ module.exports = {
                         switch(collected.first().emoji.name){
                             case "⬆️":
                                 if(number>50){
-                                    users_data[guild_id][player_id].money += bet*2;
+                                    users_data = JSON.parse(fs.readFileSync("./data/users.json", "utf-8"));
+                                    const boost = users_data[guild_id][player_id].boost
+                                    const bonus = parseInt((boost/100)*bet)
+                                    var level = users_data[guild_id][player_id].level
+                                    var level_bonus = 0
+                                    if(level>=10){
+                                       level_bonus = parseInt(level/10)*5
+                                    }
+                                    users_data[guild_id][player_id].money += bet*2+bonus+level_bonus;
                                     m.reactions.removeAll();
                                     saveCoins(users_data);
-                                    m.edit(`The number was ${number} ! You double your bet and win ${bet*2} ${coins}`)
+                                    m.edit(`The number was ${number} ! You double your bet and win ${bet*2} + ${level_bonus} (level) + ${bonus} (boost) ${coins}`)
                                     break;
                                 }else if(number<50){
                                     m.reactions.removeAll();
                                     m.edit(`The number was ${number} ! You loose ${bet} ${coins}`)
                                     break;
                                 }else if(number==50){
+                                    users_data = JSON.parse(fs.readFileSync("./data/users.json", "utf-8"));
                                     users_data[guild_id][player_id].money += bet;
                                     saveCoins(users_data);
                                     m.reactions.removeAll();
@@ -56,16 +66,25 @@ module.exports = {
                                 }
                             case "⬇️":
                                 if(number<50){
-                                    users_data[guild_id][player_id].money += bet*2;
+                                    users_data = JSON.parse(fs.readFileSync("./data/users.json", "utf-8"));
+                                    const boost = users_data[guild_id][player_id].boost
+                                    const bonus = parseInt((boost/100)*bet)
+                                    var level = users_data[guild_id][player_id].level
+                                    var level_bonus = 0
+                                    if(level>=10){
+                                       level_bonus = parseInt(level/10)*5
+                                    }
+                                    users_data[guild_id][player_id].money += bet*2+bonus+level_bonus;
                                     m.reactions.removeAll();
                                     saveCoins(users_data);
-                                    m.edit(`The number was ${number} ! You double your bet and win ${bet*2} ${coins}`)
+                                    m.edit(`The number was ${number} ! You double your bet and win ${bet*2} + ${level_bonus} (level) + ${bonus} (boost) ${coins}`)
                                     break;
                                 }else if(number>50){
                                     m.reactions.removeAll();
                                     m.edit(`The number was ${number} ! You loose ${bet} ${coins}`)
                                     break;
                                 }else if(number==50){
+                                    users_data = JSON.parse(fs.readFileSync("./data/users.json", "utf-8"));
                                     users_data[guild_id][player_id].money += bet;
                                     saveCoins(users_data);
                                     m.reactions.removeAll();

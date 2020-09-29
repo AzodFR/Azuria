@@ -12,6 +12,10 @@ module.exports = {
             return;
         }else{
             const nb_players = parseInt(args[0]);
+            if(nb_players < 2){
+                message.reply('you must play with 1 other player → $fast x')
+            return;
+            }
             var players = [message.author.id];
             var players_name = [message.author.username];
             message.channel.send(getEmbed(message, nb_players, players, players_name)).then(m => {
@@ -80,9 +84,16 @@ module.exports = {
                                             const users_data = JSON.parse(fs.readFileSync("./data/users.json", "utf-8"));
                                             const coins = server_data[guild_id].money
                                             const reward = server_data[guild_id].fast_reward
+                                            const boost = users_data[guild_id][msg.author.id].boost
+                                            const bonus = parseInt((boost/100)*reward)
+                                            var level = users_data[guild_id][msg.author.id].level
+                                            var level_bonus = 0
+                                            if(level>=10){
+                                               level_bonus = parseInt(level/10)*5
+                                            }
                                             winner = msg.author.id
-                                            msg.channel.send(`The winner is ${msg.author.username} ! He win ${reward} ${coins} !`)
-                                            users_data[guild_id][winner].money += reward
+                                            msg.channel.send(`The winner is ${msg.author.username} ! He win ${reward} + ${level_bonus} (level) + ${bonus} (boost) ${coins} !`)
+                                            users_data[guild_id][winner].money += reward+bonus+level_bonus
                                             saveCoins(users_data)
                                             return;
                                         }

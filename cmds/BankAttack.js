@@ -17,6 +17,12 @@ module.exports = {
         const server_data = JSON.parse(fs.readFileSync("./data/config_servers.json", "utf-8"));
 
         var amount_batk = server_data[guild_id].bank_atk_simple;
+        var boost = users_data[guild_id][player_id].boost - 1
+        var level = users_data[guild_id][player_id].level
+        var level_bonus = 0
+        if(level>=10){
+           level_bonus = parseInt(level/10)*5
+        }
         const amount_bigwin = server_data[guild_id].bank_atk_bigwin;
         const coin = server_data[guild_id].money;
         const dev = server_data[guild_id].dev;
@@ -95,11 +101,11 @@ module.exports = {
             }
         }
 
-        amount_batk = parseInt(amount_batk+(1-(moneybags/25))*amount_batk);
+        amount_batk = parseInt((amount_batk+(1-(moneybags/25))*amount_batk)+10*boost+level_bonus);
         
 
         //TITLE MESSAGE
-        message.channel.send(`Party started by ${player.username} (${moneybags} MoneyBags -> ${amount_batk} ${coin}/u)`).then(m => {
+        message.channel.send(`Party started by ${player.username}\`\`\`${moneybags} MoneyBags\n${25-moneybags} Skull Head \n${amount_batk-10*boost-level_bonus} + ${level_bonus} (level bonus) + ${10*boost} (boost) = ${amount_batk} ${coin} / moneybag\`\`\``).then(m => {
             m.react('⛔');
             m.awaitReactions((reaction, user) => user.id == player_id && reaction.emoji.name == "⛔",
             { max: 1}).then(collected => {
@@ -425,6 +431,7 @@ function saveData(type, json){
 }
 
 function updateCoins(guild_id,player_id, amount, users_data){
+    
     users_data[guild_id][player_id].money += amount;
     saveData("users", users_data);
 }

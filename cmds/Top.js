@@ -1,5 +1,6 @@
 const fs = require('fs');
 const { MessageEmbed } = require('discord.js');
+const { config } = require('process');
 module.exports = {
     name: "top",
     description: "Show the most richest player of the server",
@@ -62,9 +63,17 @@ module.exports = {
         .setColor("BLUE")
         .setURL("https://github.com/AzodFR/Azuria/")
         .setThumbnail("https://i.imgur.com/aXAfC9y.png")
+        .setFooter(`The bank have ${users_data[guild_id]["758479575260594238"].money} ${coins}`, "https://i.imgur.com/BMc3rCn.png")
+        var bot = 0;
         for(var j = 0; j <Object.keys(top2).length; j++){
-
-            embed.addField(`#${j+1} ${top2[Object.keys(top2)[j]][0]}`, `${top2[Object.keys(top2)[j]][1]} ${coins}`)
+            const player = message.guild.members.cache.find(us => us.user.username == top2[Object.keys(top2)[j]][0])
+            const boost = users_data[guild_id][player.id].boost;
+            if(player.id == "758479575260594238"){
+                bot = 1;
+            }else{
+               embed.addField(`#${j+1-bot} ${top2[Object.keys(top2)[j]][0]}`, `${top2[Object.keys(top2)[j]][1]} ${coins} -- Boost Level ${boost}`) 
+            }
+            
         }
 
         message.channel.send(embed);
