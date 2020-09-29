@@ -22,6 +22,8 @@ module.exports = {
                         .addField("BankAttack BigWin → $config batk_bigwin x", "x will be the new BankAttack Big Win reward and need to be a number")
                         .addField("DailyReward Minimum → $config dr_min x", "x will be the new minimum DailyReward and need to be a number")
                         .addField("DailyReward Maximum → $config dr_max x", "x will be the new maxmimum DailyReward and need to be a number")
+                        .addField("Fast Reward → $config fast_reward x", "x will be the new Fast's reward and need to be a number")
+                        .addField("Fast Timer → $config fast_timer x", "x will be the new Fast's timer and need to be a number")
                         .addField("Base XP → $config base_xp x", "x will be the amount of xp / message and need to be a number")
                         .setFooter("You can copy/paste the commands, don't forget to change x's value");
                 message.channel.send(embed);
@@ -77,6 +79,24 @@ module.exports = {
                         }else{
                             server_data[guild_id].basexp = parseInt(args[1]);
                             message.channel.send("Success ! The new amount of xp / message is "+args[1])
+                            break;
+                        }
+                    case "fast_timer":
+                        if(isNaN(args[1])){
+                            message.reply("you need to put a number !")
+                            return;
+                        }else{
+                            server_data[guild_id].fast_time = parseInt(args[1]);
+                            message.channel.send("Success ! The new timer of Fast is "+args[1]+" seconds")
+                            break;
+                        }
+                    case "fast_reward":
+                        if(isNaN(args[1])){
+                            message.reply("you need to put a number !")
+                            return;
+                        }else{
+                            server_data[guild_id].fast_reward = parseInt(args[1]);
+                            message.channel.send("Success ! The new reward of Fast is "+args[1])
                             break;
                         }
                     case "welcome":{

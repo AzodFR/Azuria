@@ -18,6 +18,8 @@ module.exports = {
         const coin = server_data[guild_id].money;
         const dev = server_data[guild_id].dev;
         const basexp = server_data[guild_id].basexp;
+        const fast_reward = server_data[guild_id].fast_reward;
+        const fast_time = server_data[guild_id].fast_time;
         var welcome_channel = message.guild.channels.cache.get(ch => ch.id === server_data[guild_id].welcome);
         const regex = /[A-zÀ-ÿ]/g;
         if(server_data[guild_id].welcome.match(regex)){
@@ -44,6 +46,8 @@ module.exports = {
                 .addField("BankAttack Big Win", amount_bigwin)
                 .addField("DailyReward Minimum Reward", amount_drmin)
                 .addField("DailyReward Maximum Reward", amount_drmax)
+                .addField("Fast Reward", fast_reward)
+                .addField("Fast Timer", fast_time+" seconds")
                 .addField("XP / message", basexp)
                 .setFooter("Dev mode is "+dev, footer_url);
         message.channel.send(embed);

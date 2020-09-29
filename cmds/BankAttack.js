@@ -16,7 +16,7 @@ module.exports = {
         const users_data = JSON.parse(fs.readFileSync("./data/users.json", "utf-8"));
         const server_data = JSON.parse(fs.readFileSync("./data/config_servers.json", "utf-8"));
 
-        const amount_batk = server_data[guild_id].bank_atk_simple;
+        var amount_batk = server_data[guild_id].bank_atk_simple;
         const amount_bigwin = server_data[guild_id].bank_atk_bigwin;
         const coin = server_data[guild_id].money;
         const dev = server_data[guild_id].dev;
@@ -48,23 +48,11 @@ module.exports = {
 
         var started_m = null;
 
-        //TITLE MESSAGE
-        message.channel.send(`Party started by ${player.username}`).then(m => {
-            m.react('⛔');
-            m.awaitReactions((reaction, user) => user.id == player_id && reaction.emoji.name == "⛔",
-            { max: 1}).then(collected => {
-                m.delete();
-                message.delete();
-                games_data[guild_id].bankatk = "";
-                saveData("games", games_data);
-                m.channel.messages.cache.get(started_m.id).delete();
-            }).catch(() => {
-                return;
-            })
-        })
+
 
         //GENERATING SYSTEM
         var bombs = [];
+        var moneybags = 25;
         var line_a = [];
         var line_b = [];
         var line_c = [];
@@ -79,6 +67,7 @@ module.exports = {
         //HOW MANY BOMBS PER LINE
         for(var i = 0; i<5; i++){
             bombs[i] = getRandomInt(5);
+            moneybags = moneybags - (bombs[i]+1);
             const construct = []
             //AT WHAT POSITION DOES WE HAVE BOMBS
             for(var j = 0; j<=bombs[i]; j++){
@@ -105,6 +94,24 @@ module.exports = {
                     break;
             }
         }
+
+        amount_batk = parseInt(amount_batk+(1-(moneybags/25))*amount_batk);
+        
+
+        //TITLE MESSAGE
+        message.channel.send(`Party started by ${player.username} (${moneybags} MoneyBags -> ${amount_batk} ${coin}/u)`).then(m => {
+            m.react('⛔');
+            m.awaitReactions((reaction, user) => user.id == player_id && reaction.emoji.name == "⛔",
+            { max: 1}).then(collected => {
+                m.delete();
+                message.delete();
+                games_data[guild_id].bankatk = "";
+                saveData("games", games_data);
+                m.channel.messages.cache.get(started_m.id).delete();
+            }).catch(() => {
+                return;
+            })
+        })
 
         //SENDING PATTERN
 

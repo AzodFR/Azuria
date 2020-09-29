@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { MessageEmbed, ReactionCollector } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 module.exports = {
     name: "lottery",
     alias: ["ltr"],
@@ -12,7 +12,7 @@ module.exports = {
         const coins = server_data[guild_id].money
 
         if(args.length != 2){
-            message.reply("you need to set the bet → $lottery x");
+            message.reply("you need to set the bet and number of players → $lottery x y");
             return;
         }else if(isNaN(args[0]) || isNaN(args[1] || parseInt(args[0]) == 0 || parseInt(args[1]) <2)){
             message.reply("you need to set the bet and number of players → $lottery x y");

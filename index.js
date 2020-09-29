@@ -36,6 +36,8 @@ client.on("guildCreate", guild => {
         bank_atk_bigwin: 100,
         dailyreward_min: 5,
         dailyreward_max: 20,
+        fast_reward: 30,
+        fast_time: 10,
         basexp: 1,
         dev: "off",
         welcome: "general",
